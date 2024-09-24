@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
+import PulseLoader from "react-spinners/PulseLoader";
 
 
 function PokemonPage() {
 
   const params = useParams()
-
+const navigate = useNavigate()
   // 1. Crear el estado que almacenará la data externa
   const [pokemonDetails, setPokemonDetails ] = useState(null)
 
@@ -23,14 +24,22 @@ function PokemonPage() {
     // almacenar data en el estado
       setPokemonDetails(data)
 
+
+      // const responseEvolution = await fetch(`https://pokeapi.co/api/v2/evolution-chain/${data.id}`)
+      // const dataEvolution = await responseEvolution.json()
+      // console.log(dataEvolution)
+    
     } catch (error) {
       console.log(error)
+
+      //enviamos al usuario a una página específica de error
+      navigate("/error")
     }
   }
 
 // gestión del loading
 if(pokemonDetails===null){
-  return <h3>...cargando detalles</h3>
+  return <div><PulseLoader /></div>
 }
   return (
     <div>
